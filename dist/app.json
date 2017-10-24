@@ -1,0 +1,66 @@
+{
+    "versions": {
+        "v1": {
+            "routes": {
+                "/archives": {
+                    "/":{
+                        "POST": {
+                            "description": "Creates a new archive to save in the database.",
+                            "body": {
+                                "url": "The url of the article for the archive.",
+                                "quote": "The quote on the article for the archive.",
+                                "options": {
+                                    "ignore_min_time_passed": "Ignores the minimum amount of time to check a live article before checking it again.",
+                                    "post_to_archive_is": "Posts the article associated with the archive to archive.is"
+                                }
+                            }
+                        }
+                    },
+                    "/:id":{
+                        "GET": {
+                            "description": "Gets the archive associated with the id",
+                            "query": {
+                                "id": "The id of the associated archive",
+                                "options": {
+                                    "ignore_min_time_passed": "Ignores the minimum amount of time to check a live article before checking it again."
+                                }
+                            }
+                        }
+                    }
+                }, 
+                "articles": {
+                    "/":{
+                        "POST": {
+                            "description": "Creates a new article to save in the database.",
+                            "body": {
+                                "url": "The url of the article",
+                                "options": {
+                                    "ignore_min_time_passed": "Ignores the minimum amount of time to check a live article before checking it again.",
+                                    "post_to_archive_is": "Posts the article to archive.is"
+                                }
+                            }
+                        }
+                    },
+                    "/:id":{
+                        "GET": {
+                            "description": "Gets the article associated with the id",
+                            "query": {
+                                "id": "The id of the associated article",
+                                "options": {
+                                    "ignore_min_time_passed": "Ignores the minimum amount of time to check a live article before checking it again."
+                                }
+                            }
+                        }
+                    }
+                },
+                "supportedWebsites": {
+                    "/":{
+                        "GET": {
+                            "description": "Gets a list of all supported websites"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
