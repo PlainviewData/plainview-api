@@ -1,9 +1,9 @@
-const commandLineArgs = require('command-line-args')
-const fs = require('fs');
-const mongoose = require('mongoose');
+import * as commandLineArgs from 'command-line-args';
+import * as fs from 'fs';
+import * as mongoose from 'mongoose';
 
-const DB_CONFIG_TEMPLATE_FILE_PATH = './dist/etc/database_config.template.json';
-const AWS_S3_CONFIG_TEPMPLATE_FILE_PATH = './dist/etc/aws_s3_config.template.json';
+const DB_CONFIG_TEMPLATE_FILE_PATH = './dist/etc/templates/database_config.template.json';
+const AWS_S3_CONFIG_TEPMPLATE_FILE_PATH = './dist/etc/templates/aws_s3_config.template.json';
 
 const DB_CONFIG_OUTPUT_FILE_PATH = './dist/config/database.json';
 const AWS_S3_CONFIG_OUTPUT_FILE_PATH = './dist/config/aws_s3.json';
@@ -66,16 +66,3 @@ if (parameterEntered || (fs.existsSync(DB_CONFIG_OUTPUT_FILE_PATH) == false) || 
   fs.writeFileSync(AWS_S3_CONFIG_OUTPUT_FILE_PATH, JSON.stringify(aws_s3_config_template, null, 2));
 
 }
-
-const dbURI = 'mongodb://'+db_config_template['database_username']+':'+db_config_template['database_password']+'@'+db_config_template['database_url']+'/'+db_config_template['database_name'];
-
-mongoose.connect(dbURI, { useMongoClient: true }); 
-
-mongoose.connection.on('connected', function () {  
-  console.log('Connected successfully to Mongo database!');
-  mongoose.connection.close()
-}); 
-
-mongoose.connection.on('error',function (err) {  
-  throw new Error('Failed to connect to Mongo database'); 
-});

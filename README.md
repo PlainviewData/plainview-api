@@ -28,12 +28,12 @@ npm install
 
 ## Deployment
 
-The API does not have any database connections preconfigured. Therefore, the config will have to be entered once after installing by running the `storage_config` script. The config can also be changed later at any time in the `config` directory or by running the `storage_config` script . If any of the values are missing, an error will be thrown. 
+The API does not have any database connections preconfigured. Therefore, the config will have to be entered once after installing by running the `storage_config` script. The config can also be changed later at any time in the `config` directory or by running the `storage_config` script. If any of the values are missing, an error will be thrown. 
 
 ```
 node dist/scripts/storage_config.js --DB_URL="" --DB_USERNAME="" --DB_PASSWORD="" --DB_NAME="" --AWS_ACCESS_KEY="" --AWS_SECRET_KEY="" --AWS_S3_URL="" --S3_BUCKET=""
-Connected successfully to Mongo database!
 npm start
+Connected successfully to Mongo database!
 ```
 
 Note: If `Error: ENOENT: no such file or directory` is thrown when running `storage_config`, try running the script from the base `plainview-api` directory.

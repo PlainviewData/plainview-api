@@ -1,6 +1,6 @@
 import {Router, Request, Response, NextFunction} from 'express';
 
-export class ArchiveRouter {
+export class QuoteRouter {
   router: Router
 
   /**
@@ -37,7 +37,7 @@ export class ArchiveRouter {
 }
 
 // Create the ArchiveRouter, and export its configured Express.Router
-const archiveRoutes = new ArchiveRouter();
-archiveRoutes.init();
+const quoteRoutes = new QuoteRouter();
+quoteRoutes.init();
 
-export default archiveRoutes.router;
+export default quoteRoutes.router;

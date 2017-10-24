@@ -3,21 +3,30 @@ import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as fs from 'fs';
-const apiInfo = fs.readFileSync("api.json");
+import * as colors from 'colors';
+import mongoose = require("mongoose");
 
-import ArchiveRouter from './controllers/ArchiveRouter';
+import * as tools from './etc/tools';
+import QuoteRouter from './controllers/QuoteRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
 
   // ref to Express instance
   public express: express.Application;
+  public dbConfig: tools.databaseConfig;
+  public connection: mongoose.Connection;
 
   //Run configuration methods on the Express instance.
   constructor() {
     this.express = express();
+    this.dbConfig = new tools.databaseConfig();
+    this.connection  = mongoose.createConnection(this.dbConfig.database_uri, { useMongoClient: true });
     this.middleware();
     this.routes();
+    this.connection.on('connected', function () {  
+      console.log(colors.green('Connected successfully to Mongo database!'));
+    });
   }
 
   // Configure Express middleware.
@@ -28,14 +37,14 @@ class App {
   }
 
   // Configure API endpoints.
-private routes(): void {
-  let router = express.Router();
-  router.get('/', (req, res, next) => {
-    res.json(apiInfo);
-  });
-  this.express.use('/', router);
-  this.express.use('/api/v1/archives', ArchiveRouter);
-}
+  private routes(): void {
+    let router = express.Router();
+    router.get('/', (req, res, next) => {
+      res.redirect('http://www.github.com/plainviewdata/plainview-api');
+    });
+    this.express.use('/', router);
+    this.express.use('/quotes', QuoteRouter);
+  }
 
 }
 

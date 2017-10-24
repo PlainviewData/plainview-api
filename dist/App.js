@@ -2,16 +2,23 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const fs = require('fs');
-const apiInfo = fs.readFileSync("api.json");
-const ArchiveRouter_1 = require('./controllers/ArchiveRouter');
+const colors = require('colors');
+const mongoose = require("mongoose");
+const tools = require('./etc/tools');
+const QuoteRouter_1 = require('./controllers/QuoteRouter');
 // Creates and configures an ExpressJS web server.
 class App {
     //Run configuration methods on the Express instance.
     constructor() {
         this.express = express();
+        this.dbConfig = new tools.databaseConfig();
+        this.connection = mongoose.createConnection(this.dbConfig.database_uri, { useMongoClient: true });
         this.middleware();
         this.routes();
+        this.connection.on('connected', function () {
+            console.log(colors.green('Connected successfully to Mongo database!'));
+            mongoose.connection.close();
+        });
     }
     // Configure Express middleware.
     middleware() {
@@ -23,10 +30,10 @@ class App {
     routes() {
         let router = express.Router();
         router.get('/', (req, res, next) => {
-            res.json(apiInfo);
+            res.redirect('http://www.github.com/plainviewdata/plainview-api');
         });
         this.express.use('/', router);
-        this.express.use('/api/v1/archives', ArchiveRouter_1.default);
+        this.express.use('/quotes', QuoteRouter_1.default);
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
